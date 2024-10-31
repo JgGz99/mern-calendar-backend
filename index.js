@@ -1,6 +1,7 @@
+const path = require('path')
 const express = require('express');
 require('dotenv').config();
-const {dbConnection} = require('./database/config.js')
+const { dbConnection } = require('./database/config.js')
 const cors = require('cors')
 ///crear el servidor de express
 
@@ -22,14 +23,17 @@ app.use(express.json())
 //rutas
 
 //Autenticacion
-app.use('/api/auth',require('./routes/auth.js'))
+app.use('/api/auth', require('./routes/auth.js'))
 
 //Eventos CRUD
 app.use('/api/events', require('./routes/events.js'))
 
+app.use('*', (req, res) => {
+     res.sendFile(path.join(__dirname, 'public/index.html'))
+})
 
 //Escuchar peticiones 
 
-app.listen(process.env.PORT,()=>{
+app.listen(process.env.PORT, () => {
      console.log(`Servidor corriendo en el puerto ${process.env.PORT}`)
 })
